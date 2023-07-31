@@ -1,5 +1,7 @@
 package base.business;
 
+import base.core.constants.Messages;
+import base.core.exceptions.BusinessException;
 import base.core.util.mapping.IModelMapperService;
 import base.dataAccess.UserRepository;
 import base.entities.UserInfo;
@@ -38,11 +40,11 @@ public class UserManager implements UserService{
     }
 
     @Override
-    public Optional<UserResponse> getById(ObjectId id) {
+    public UserResponse getById(ObjectId id) {
         UserInfo foundedUser = userRepository.findById(id);
         UserResponse response = mapperService.mapper().map(foundedUser,UserResponse.class);
 
-        return Optional.ofNullable(response);
+        return response;
     }
     @Override
     public String delete(ObjectId id){
@@ -52,17 +54,38 @@ public class UserManager implements UserService{
         return "Başarıyla Silindi.";
     }
     @Override
-    public UserResponse update(UserRequest userRequest,ObjectId id){
+    public UserResponse update(UserRequest userRequest,ObjectId id) throws Exception {
+        /*Optional<UserInfo> optionalFoundedUser;
+
+        try {
+            optionalFoundedUser = Optional.of(userRepository.findByIdOptional(id)
+                    .orElseThrow(()-> new Exception("This person does not exist")));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        UserInfo actualFoundedUser = optionalFoundedUser.get();
+        actualFoundedUser.setFirstName(userRequest.getFirstName());
+        actualFoundedUser.setLastName(userRequest.getLastName());
+        userRepository.save(actualFoundedUser);*/
+
         UserInfo foundedUser = userRepository.findById(id);
+
+        checkIfUserExists(foundedUser);
+
+
         foundedUser.setFirstName(userRequest.getFirstName());
         foundedUser.setLastName(userRequest.getLastName());
         userRepository.save(foundedUser);
+
 
         UserResponse response = mapperService.mapper().map(foundedUser,UserResponse.class);
 
         return response;
 
     }
+
+
 
     @Override
     public UserResponse add(UserRequest userRequest) {
@@ -78,6 +101,12 @@ public class UserManager implements UserService{
         userResponse.setLastName(userInfo.getLastName());
 
         return userResponse;
+    }
+
+    private void checkIfUserExists(UserInfo foundedUser) {
+        if (foundedUser == null){
+            throw new BusinessException(Messages.User.userDoesNotExist);
+        }
     }
 
 }

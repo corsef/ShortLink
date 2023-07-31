@@ -42,7 +42,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getAll());
     }
     @GetMapping("/profile/get/{id}")
-    public ResponseEntity<Optional<UserResponse>> getById(@PathVariable("id") ObjectId id){
+    public ResponseEntity<UserResponse> getById(@PathVariable("id") ObjectId id){
         return ResponseEntity.ok(userService.getById(id));
     }
     @PostMapping("/profile/add")
@@ -55,7 +55,7 @@ public class UserController {
 
     }
     @PutMapping("/profile/update/{id}")
-        public ResponseEntity<UserResponse> update(@PathVariable("id") ObjectId id, @RequestBody UserRequest userRequest){
+        public ResponseEntity<UserResponse> update(@PathVariable("id") ObjectId id, @RequestBody UserRequest userRequest) throws Exception {
 
         return ResponseEntity.ok(userService.update(userRequest,id));
         /*try {

@@ -10,4 +10,6 @@ public class UserRequest {
     private ObjectId id;
     private String firstName;
     private String lastName;
+    private String password;
+    private String email;
 }

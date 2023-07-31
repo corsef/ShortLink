@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Document(collection = "PersonInfo")
+
 public class UserInfo {
 
     @Id
@@ -13,6 +14,8 @@ public class UserInfo {
 
     private String firstName;
     private String lastName;
+    private String password;
+    private String email;
     private String title;
     private String workPlace;
     private String aboutText;
@@ -21,6 +24,8 @@ public class UserInfo {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.password = password;
+        this.email = email;
         this.title = title;
         this.workPlace = workPlace;
         this.aboutText = aboutText;
@@ -50,6 +55,14 @@ public class UserInfo {
         this.lastName = lastName;
     }
 
+    public String getPassword() {return password;}
+
+    public void setPassword(String password) {this.password = password;}
+
+    public String getEmail() {return email;}
+
+    public void setEmail(String email) {this.email = email;}
+
     public String getTitle() {
         return title;
     }
@@ -76,10 +89,12 @@ public class UserInfo {
 
     @Override
     public String toString() {
-        return "PersonInfo{" +
+        return "UserInfo{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
                 ", title='" + title + '\'' +
                 ", workPlace='" + workPlace + '\'' +
                 ", aboutText='" + aboutText + '\'' +

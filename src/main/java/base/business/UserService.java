@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface UserService {
     List<UserResponse> getAll();
-    Optional<UserResponse> getById(ObjectId id);
+    UserResponse getById(ObjectId id);
     UserResponse add(UserRequest userRequest);
     String delete(ObjectId id);
-    UserResponse update(UserRequest userRequest,ObjectId id);
+    UserResponse update(UserRequest userRequest,ObjectId id) throws Exception;
 }
