@@ -1,23 +1,20 @@
 package base.api;
 
-import base.business.UserManager;
-import base.business.UserService;
+import base.business.user.UserService;
 import base.dataAccess.UserRepository;
-import base.entities.UserInfo;
-import base.resources.UserRequest;
-import base.resources.UserResponse;
+import base.entities.user.UserInfo;
+import base.resources.user.UserRequest;
+import base.resources.user.UserResponse;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class UserController {
     private ObjectId objectId = new ObjectId();
     private UserInfo userInfo = new UserInfo();
@@ -31,6 +28,7 @@ public class UserController {
     private final UserService userService;
 
 
+
     @Autowired
     public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
@@ -41,6 +39,7 @@ public class UserController {
     public ResponseEntity<List<UserResponse>> getAll(){
         return ResponseEntity.ok(userService.getAll());
     }
+
     @GetMapping("/profile/get/{id}")
     public ResponseEntity<UserResponse> getById(@PathVariable("id") ObjectId id){
         return ResponseEntity.ok(userService.getById(id));
@@ -49,6 +48,7 @@ public class UserController {
     public ResponseEntity<UserResponse> createProfile(@RequestBody UserRequest userRequest){
         return ResponseEntity.status(201).body(userService.add(userRequest));
     }
+
     @DeleteMapping("/profile/delete/{id}")
     public ResponseEntity<String> deleteInfoById(@PathVariable("id") ObjectId id){
         return ResponseEntity.ok(userService.delete(id));
